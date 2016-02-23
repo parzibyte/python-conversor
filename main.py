@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
-
-
-def imprime_opciones():
-    print "Elige:"
-    print "1 - Energia"
-    print "1 - Energia"
-
-
 def pide_conversion():
-    conversion_deseada = raw_input("¿Qué quieres convertir?")
+    conversion_deseada = raw_input("¿Qué quieres convertir?\n")
     return conversion_deseada
 
 
@@ -21,7 +13,6 @@ def es_numero(numero):
 
 
 def corta_oracion(oracion):
-    # print "La oración que recibo es: " + oracion
     pos_primer_espacio = oracion.find(" ")
     if pos_primer_espacio == -1:
         print "Error: La oración debe llevar espacios; si no, no entiendo."
@@ -39,11 +30,6 @@ def corta_oracion(oracion):
         return False
     primera_unidad = oracion[pos_primer_espacio + 1: pos_nexo]
     segunda_unidad = oracion[pos_nexo+3:len(oracion)]
-    # print "La posición del primer espacio es: " + str(pos_primer_espacio)
-    # print "La posición del nexo es: " + str(pos_nexo)
-    # print "El número es: " + "'" + numero_unidades + "'"
-    # print "La primera unidad es: " + "'" + primera_unidad + "'"
-    # print "La segunda unidad es:" + "'" + segunda_unidad + "'"
     oracion_cortada = {
         "numero_unidades": numero_unidades,
         "primera_unidad": primera_unidad,
@@ -53,7 +39,8 @@ def corta_oracion(oracion):
 
 
 def main():
-    oracion_cortada = corta_oracion("5 metros a yardas")
+    oracion = pide_conversion()
+    oracion_cortada = corta_oracion(oracion)
     if oracion_cortada is not False:
         print "Muy bien, la oración es válida."
         return True
