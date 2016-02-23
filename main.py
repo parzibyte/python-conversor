@@ -1,4 +1,36 @@
 # -*- coding: utf-8 -*-
+
+import json
+
+
+def carga_json():
+    with open(ruta_archivo_unidades) as data_file:
+        data = json.load(data_file)
+    print "¡Unidades cargadas correctamente!"
+    return data
+
+ruta_archivo_unidades = "./unidades.json"
+arreglo_unidades = carga_json()
+
+
+def a_que_grupo_pertenece(unidad_buscada):
+    unidades_finales = arreglo_unidades['unidades']
+    for grupo in unidades_finales:
+        unidades = unidades_finales[grupo]['unidades']
+        for unidad in unidades:
+            if unidad == unidad_buscada:
+                return str(grupo)
+    return False
+    # unidades = arreglo_unidades['unidades']
+    # print "SON:"
+    # print unidades['Longitud']
+    # print "Recibo: " + unidad
+    # if unidad in arreglo_unidades['unidades']:
+    #     print arreglo_unidades[unidad]
+    # else:
+    #     print "Nope"
+
+
 def pide_conversion():
     conversion_deseada = raw_input("¿Qué quieres convertir?\n")
     return conversion_deseada
@@ -43,8 +75,9 @@ def main():
     oracion_cortada = corta_oracion(oracion)
     if oracion_cortada is not False:
         print "Muy bien, la oración es válida."
+        a_que_grupo_pertenece(oracion_cortada['primera_unidad'])
         return True
     print "Error: La oración no es válida"
     return False
 
-main()
+print a_que_grupo_pertenece("metro")
