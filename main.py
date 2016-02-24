@@ -168,7 +168,7 @@ def muestra_instrucciones():
     print "20 centimetros a pulgadas"
     print "Si en cualquier momento deseas ver las unidades"
     print "que puedo convertir, escribe 'unidades' en lugar"
-    print "de la oracion para convertir. ¡GRACIAS!"
+    print "de la oracion para convertir. GRACIAS"
     raw_input("Presiona una tecla para continuar...")
     instrucciones_mostradas = True
 
