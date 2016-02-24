@@ -1,23 +1,64 @@
 # -*- coding: utf-8 -*-
 
 import json
-import os
 
 
 def carga_json():
     with open(ruta_archivo_unidades) as data_file:
         data = json.load(data_file)
-    print "¡Unidades cargadas correctamente!"
+    print "Unidades cargadas correctamente."
     return data
+
+
+def convertirGrados(primera_unidad, segunda_unidad, numero_unidades):
+    numero_unidades = float(numero_unidades)
+    if primera_unidad == "grado fahrenheit":
+        if segunda_unidad == "grado fahrenheit":
+            return numero_unidades
+        if segunda_unidad == "grado celsius":
+            return (numero_unidades - 32) * (5 / 9)
+        if segunda_unidad == "kelvin":
+            return ((5 * (numero_unidades - 32)) / 9) + 273.15
+    if primera_unidad == "grado celsius":
+        if segunda_unidad == "grado fahrenheit":
+            return 32 + ((9 / 5) * numero_unidades)
+        if segunda_unidad == "grado celsius":
+            return numero_unidades
+        if segunda_unidad == "kelvin":
+            return numero_unidades + 273.15
+    if primera_unidad == "kelvin":
+        if segunda_unidad == "grado fahrenheit":
+            return ((9 * (numero_unidades - 273.15)) / 5) + 32
+        if segunda_unidad == "grado celsius":
+            return numero_unidades - 273.15
+        if segunda_unidad == "kelvin":
+            return numero_unidades
+
+
+def convertir(grupo_unidad1, primera_unidad, segunda_unidad, numero_unidades):
+    if grupo_unidad1 == "Temperatura":
+        equivalencia = convertirGrados(primera_unidad, segunda_unidad, numero_unidades)
+        resultado = equivalencia
+    else:
+        equivalencia = dame_equivalencia(grupo_unidad1, primera_unidad, segunda_unidad)
+        resultado = equivalencia * float(numero_unidades)
+    resultado_string = str(numero_unidades) \
+                       + " " \
+                       + primera_unidad \
+                       + " equivalen a " \
+                       + str(resultado) \
+                       + " " + segunda_unidad
+    return resultado_string
 
 
 ruta_archivo_unidades = "./unidades.json"
 arreglo_unidades = carga_json()
+instrucciones_mostradas = False
 
 
-def dame_equivalencia(grupo, unidad, unidad2):
-    equivalencias = arreglo_unidades['unidades'][grupo]['equivalencias'][unidad]
-    return equivalencias[unidad2]
+def dame_equivalencia(grupo_unidad1, primera_unidad, segunda_unidad):
+    equivalencias = arreglo_unidades['unidades'][grupo_unidad1]['equivalencias'][primera_unidad]
+    return equivalencias[segunda_unidad]
 
 
 def a_que_grupo_pertenece(unidad_buscada):
@@ -31,7 +72,7 @@ def a_que_grupo_pertenece(unidad_buscada):
 
 
 def pide_conversion():
-    conversion_deseada = raw_input("¿Qué quieres convertir?\n")
+    conversion_deseada = raw_input("Escribe lo que quieres convertir:\n")
     return conversion_deseada
 
 
@@ -46,10 +87,10 @@ def es_numero(numero):
 def corta_oracion(oracion):
     pos_primer_espacio = oracion.find(" ")
     if pos_primer_espacio == -1:
-        print "Error: La oración debe llevar espacios; si no, no entiendo."
+        print "Error: La oracion debe llevar espacios; si no, no entiendo."
         return False
     if pos_primer_espacio <= 0:
-        print "Error: La oración no puede llevar espacios al inicio."
+        print "Error: La oracion no puede llevar espacios al inicio."
         return False
     pos_nexo = oracion.find(" a ")
     if pos_nexo == -1:
@@ -57,7 +98,7 @@ def corta_oracion(oracion):
         return False
     numero_unidades = oracion[0:pos_primer_espacio]
     if not es_numero(numero_unidades):
-        print "Error: El número de unidades que quieres convertir no es válido."
+        print "Error: El numero de unidades que quieres convertir no es valido."
         return False
     primera_unidad = oracion[pos_primer_espacio + 1: pos_nexo]
     segunda_unidad = oracion[pos_nexo + 3:len(oracion)]
@@ -69,48 +110,47 @@ def corta_oracion(oracion):
     return oracion_cortada
 
 
-def main():
+def muestra_instrucciones():
+    print "Somos las instrucciones xd"
+
+
+def __main__():
     oracion = pide_conversion()
+    if len(oracion) <= 0:
+        print "Error: Tienes que escribir lo que quieres convertir."
+        __main__()
     oracion_cortada = corta_oracion(oracion)
     if oracion_cortada is not False:
-        print "Muy bien, la oración es válida."
+        print "Muy bien, la oracion es valida."
         primera_unidad = oracion_cortada['primera_unidad']
         segunda_unidad = oracion_cortada['segunda_unidad']
         numero_unidades = oracion_cortada['numero_unidades']
-        grupo_unidad1 = a_que_grupo_pertenece(oracion_cortada['primera_unidad'])
+        grupo_unidad1 = a_que_grupo_pertenece(primera_unidad)
         if grupo_unidad1 is False:
             print "Lo siento, pero no reconozco la siguiente unidad: " + oracion_cortada['primera_unidad']
-            return
-        grupo_unidad2 = a_que_grupo_pertenece(oracion_cortada['segunda_unidad'])
+            __main__()
+        grupo_unidad2 = a_que_grupo_pertenece(segunda_unidad)
         if grupo_unidad2 is False:
             print "Lo siento, pero no reconozco la siguiente unidad: " + oracion_cortada['segunda_unidad']
-            return
+            __main__()
         if grupo_unidad1 != grupo_unidad2:
             print "Lo siento, no puedo convertir unidades de diferentes grupos. Ya que " \
                   + "'" + primera_unidad + "'" + " pertenece al grupo " + "'" + grupo_unidad1 + "'" + " mientras que " \
-                  + "'"+segunda_unidad + "'"+ " pertenece al grupo " + "'"+grupo_unidad2 + "'."
-            return
-        print "Perfecto, ambas unidades están registradas."
-        equivalencia = dame_equivalencia(grupo_unidad1, primera_unidad, segunda_unidad)
-        resultado = equivalencia * float(numero_unidades)
-        resultado_string = str(numero_unidades) \
-                           + " " \
-                           + primera_unidad \
-                           + " equivalen a " \
-                           + str(resultado) \
-                           + " " + segunda_unidad
+                  + "'" + segunda_unidad + "'" + " pertenece al grupo " + "'" + grupo_unidad2 + "'."
+            __main__()
+        print "Perfecto, ambas unidades estan registradas."
+        resultado_string = convertir(grupo_unidad1, primera_unidad, segunda_unidad, numero_unidades)
         lineas = ""
         for x in range(0, len(resultado_string)):
             lineas += "-"
-
         print lineas
         print resultado_string
         print lineas
-        os.system('cls')
-        main()
-        return True
-    print "Error: La oración no es válida"
-    return False
+        __main__()
+        return
+    print "Error: La oracion no es valida"
+    __main__()
+    return
 
 
-main()
+__main__()
