@@ -36,6 +36,7 @@ def convertirGrados(primera_unidad, segunda_unidad, numero_unidades):
 
 
 def convertir(grupo_unidad1, primera_unidad, segunda_unidad, numero_unidades):
+    print "Convirtiendo..."
     if grupo_unidad1 == "Temperatura":
         equivalencia = convertirGrados(primera_unidad, segunda_unidad, numero_unidades)
         resultado = equivalencia
@@ -111,43 +112,77 @@ def corta_oracion(oracion):
 
 
 def muestra_instrucciones():
-    print "Somos las instrucciones xd"
+    global instrucciones_mostradas
+    print "-----------------------------------------"
+    print "----------INSTRUCCIONES------------------"
+    print "Es importante que prestes atencion, porque"
+    print "esto solamente aparecera una vez."
+    print "Para convertir, simplemente tienes que es-"
+    print "-cribir una oracion compuesta de la sigui"
+    print "-ente manera:"
+    print "numero de unidades + nombre unidad convertida + 'a' + nombre unidad a convertir"
+    print "Aqui tienes unos ejemplos:"
+    print "20 metro a yarda"
+    print "2 centimetro a pulgada"
+    print "NOTA: Por favor escribe en plural, ya que"
+    print "el programa no entiende si escribes algo como:"
+    print "20 centimetros a pulgadas"
+    print "Si en cualquier momento deseas ver las unidades"
+    print "que puedo convertir, escribe 'unidades' en lugar"
+    print "de la oracion para convertir. ¡GRACIAS!"
+    raw_input("Presiona una tecla para continuar...")
+    instrucciones_mostradas = True
+
+
+def muestra_unidades():
+    unidades_finales = arreglo_unidades['unidades']
+    for grupo in unidades_finales:
+        print "--------------------------------------"
+        print "Grupo: " + grupo
+        unidades = unidades_finales[grupo]['unidades']
+        for unidad in unidades:
+            print "Unidad: " + unidad
 
 
 def __main__():
+    if not instrucciones_mostradas:
+        muestra_instrucciones()
     oracion = pide_conversion()
-    if len(oracion) <= 0:
-        print "Error: Tienes que escribir lo que quieres convertir."
-        __main__()
-    oracion_cortada = corta_oracion(oracion)
-    if oracion_cortada is not False:
-        print "Muy bien, la oracion es valida."
-        primera_unidad = oracion_cortada['primera_unidad']
-        segunda_unidad = oracion_cortada['segunda_unidad']
-        numero_unidades = oracion_cortada['numero_unidades']
-        grupo_unidad1 = a_que_grupo_pertenece(primera_unidad)
-        if grupo_unidad1 is False:
-            print "Lo siento, pero no reconozco la siguiente unidad: " + oracion_cortada['primera_unidad']
+    if oracion == "unidades":
+        muestra_unidades()
+    else:
+        if len(oracion) <= 0:
+            print "Error: Tienes que escribir lo que quieres convertir."
             __main__()
-        grupo_unidad2 = a_que_grupo_pertenece(segunda_unidad)
-        if grupo_unidad2 is False:
-            print "Lo siento, pero no reconozco la siguiente unidad: " + oracion_cortada['segunda_unidad']
+        oracion_cortada = corta_oracion(oracion)
+        if oracion_cortada is not False:
+            print "Muy bien, la oracion es valida."
+            primera_unidad = oracion_cortada['primera_unidad']
+            segunda_unidad = oracion_cortada['segunda_unidad']
+            numero_unidades = oracion_cortada['numero_unidades']
+            grupo_unidad1 = a_que_grupo_pertenece(primera_unidad)
+            if grupo_unidad1 is False:
+                print "Lo siento, pero no reconozco la siguiente unidad: " + oracion_cortada['primera_unidad']
+                __main__()
+            grupo_unidad2 = a_que_grupo_pertenece(segunda_unidad)
+            if grupo_unidad2 is False:
+                print "Lo siento, pero no reconozco la siguiente unidad: " + oracion_cortada['segunda_unidad']
+                __main__()
+            if grupo_unidad1 != grupo_unidad2:
+                print "Lo siento, no puedo convertir unidades de diferentes grupos. Ya que " \
+                      + "'" + primera_unidad + "'" + " pertenece al grupo " + "'" + grupo_unidad1 + "'" + " mientras que " \
+                      + "'" + segunda_unidad + "'" + " pertenece al grupo " + "'" + grupo_unidad2 + "'."
+                __main__()
+            print "Perfecto, ambas unidades estan registradas."
+            resultado_string = convertir(grupo_unidad1, primera_unidad, segunda_unidad, numero_unidades)
+            lineas = ""
+            for x in range(0, len(resultado_string)):
+                lineas += "-"
+            print lineas
+            print resultado_string
+            print lineas
             __main__()
-        if grupo_unidad1 != grupo_unidad2:
-            print "Lo siento, no puedo convertir unidades de diferentes grupos. Ya que " \
-                  + "'" + primera_unidad + "'" + " pertenece al grupo " + "'" + grupo_unidad1 + "'" + " mientras que " \
-                  + "'" + segunda_unidad + "'" + " pertenece al grupo " + "'" + grupo_unidad2 + "'."
-            __main__()
-        print "Perfecto, ambas unidades estan registradas."
-        resultado_string = convertir(grupo_unidad1, primera_unidad, segunda_unidad, numero_unidades)
-        lineas = ""
-        for x in range(0, len(resultado_string)):
-            lineas += "-"
-        print lineas
-        print resultado_string
-        print lineas
-        __main__()
-        return
+            return
     print "Error: La oracion no es valida"
     __main__()
     return
