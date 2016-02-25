@@ -21,5 +21,5 @@ Puedes escribir cosas como las siguientes:<br>
 Recuerda separar a las unidades con el nexo <strong>'a'</strong>.<br>
 <strong>IMPORTANTE:</strong> Por favor, escribe las unidades en singular (metro, yarda, kilogramo, mes, minuto) ya que el programa 
 no soporta unidades en plural (meses, metros, yardas).<br>
-Si no sabes cómo se escribe una unidad, escribe 'unidades' cuando te pregunte lo que quieres convertir. Automáticamente te
+Si no sabes cómo se escribe una unidad, escribe `unidades` cuando te pregunte lo que quieres convertir. Automáticamente te
 desplegará una lista de todas las unidades soportadas.
