@@ -1,13 +1,13 @@
 # python-conversor
 Conversor de unidades; esta vez escrito en Python
-<h1>Sinópsis</h1>
+## Sinópsis
 <strong>python-conversor</strong> es un conversor de unidades físicas (por ejemplo temperatura, longitud, masa) simple y fácil de usar.
-<h1>Motivación</h1>
+## Motivación
 Este proyecto fue creado para ayudar a un amigo a un proyecto encargado por su profesor de física.
-<h1>Instalación</h1>
-No hay instalación alguna, simplemente descarga el archivo zip, descomprímelo en la carpeta que gustes, 
+## Instalación
+No se requiere instalación alguna, simplemente descarga el archivo zip, descomprímelo en la carpeta que gustes, 
 abre dicho directorio y luego el archivo llamado "main.exe".
-<h1>Cómo usar</h1>
+## Cómo usar
 Al principio, el programa te mostrará las instrucciones. Después, puedes presionar la tecla enter y te pedirá lo que quieres
 convertir. <br>
 Puedes escribir cosas como las siguientes:<br>
